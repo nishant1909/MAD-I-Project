@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+</head>
+
+<body>
+    <section class="fixed-top">
+        <nav class="navbar navbar-expand-lg"
+            style="background-color: #87CEEB; color: #003366; border-bottom: 2px solid #003366;">
+            <div class="container-fluid">
+                <h3 class="m-3 ps-3">Welcome Admin </h3>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                    <div class="navbar-nav fs-5 nav-pills">
+                        <a class="nav-link pe-5 ps-5 fw-semibold" href="/admin/home" style="color: #003366;">Home</a>
+                        <a class="nav-link active pe-5 ps-5 text-white fw-semibold" style="background-color: #003366;"
+                            aria-current="page" href="/admin/search">Search</a>
+                        <a class="nav-link pe-5 ps-5 fw-semibold" style="color: #003366;" href="/">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+    <div class="pt-3 pb-3 fixed-top bg-white" style="top: 83px">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 offset-3">
+                    <div class="text-center">
+                        <form action="/admin/search" method="POST">
+                            <input type="hidden" value="{{type if type}}" name="type">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle ps-3 pe-3" type="button"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{type if type else 'Select search type'}}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/admin/search/service/name">Service
+                                                    Name</a></li>
+                                            <li><a class="dropdown-item" href="/admin/search/customer/name">Customer
+                                                    Name</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="/admin/search/service/professional/name">Service Professional
+                                                    Name</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="/admin/search/city_address">City/Address</a></li>
+                                            <li><a class="dropdown-item" href="/admin/search/pincode">Pincode</a></li>
+                                            <li><a class="dropdown-item" href="/admin/search/requested/date">Service
+                                                    Requested on</a></li>
+                                            <li><a class="dropdown-item" href="/admin/search/requested/date/for">Service
+                                                    Requested for</a></li>
+                                            <li><a class="dropdown-item" href="/admin/search/completed/date">Service
+                                                    Completed on</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-1"></div>
+                                <div class="col-5">
+                                    {% if type=='Pincode' %}
+                                    <input type="number" class="form-control" placeholder="Searching for" name="search"
+                                        required>
+                                    {% elif type=='Requested on' or type=='Completed on' or type=='Requested for' %}
+                                    <input type="date" class="form-control" placeholder="Searching for" name="search"
+                                        required>
+                                    {% else %}
+                                    <input type="text" class="form-control" placeholder="Searching for" name="search"
+                                        required>
+                                    {% endif %}
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn rounded-3 fw-semibold"
+                                        style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br><br><br><br><br><br><br>
+    <div class="container" style="color: #003366;">
+        {% if admin_search_outputs_service %}
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Services Search Output</h4>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% for search_output in admin_search_outputs_service %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{search_output.name}}</h5>
+                            </div>
+                            <div class="col-3 d-flex justify-content-around align-content-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_service_{{search_output.service_id}}">View
+                                </button>
+
+                                <div class="modal fade" id="view_service_{{search_output.service_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{search_output.name}}</h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body ms-3">
+                                                <p><span class="fw-semibold">Service Name:</span> {{search_output.name}}
+                                                </p>
+                                                <p><span class="fw-semibold">Service Description:</span>
+                                                    {{search_output.description}} </p>
+                                                <p><span class="fw-semibold">Minimum Cost:</span>
+                                                    &#8377;{{search_output.min_price}} </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn fw-semibold btn-warning ps-4 pe-4"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#edit_service_{{search_output.service_id}}">Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn fw-semibold btn-warning ps-4 pe-4"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_service_{{search_output.service_id}}">Edit
+                                </button>
+
+
+                                <div class="modal fade" id="edit_service_{{search_output.service_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit {{search_output.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/admin/edit_2/service/{{search_output.service_id}}"
+                                                    method="POST">
+
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" class="form-control"
+                                                                    id="edit_service_min_price"
+                                                                    placeholder="Currect Minimumn Cost: &#8377;{{search_output.min_price}}"
+                                                                    name="edit_service_min_price" required>
+                                                                <label for="edit_service_min_price">Currect Minimumn
+                                                                    Cost:
+                                                                    &#8377;{{search_output.min_price}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <div class="form-floating mb-3">
+                                                                <textarea class="form-control"
+                                                                    placeholder="Service Description"
+                                                                    id="edit_service_description"
+                                                                    name="edit_service_description" required></textarea>
+                                                                <label for="edit_service_description">Service
+                                                                    Description</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="text-center mb-2">
+                                                        <button type="submit" class="btn rounded-3 fw-semibold"
+                                                            style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Submit</button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-1">
+                                {% if search_output.status=='Active' %}
+                                <a class="btn btn-danger fw-semibold"
+                                    href="/admin/service/deactivate_2/{{search_output.service_id}}">Deactivate</a>
+                                {% elif search_output.status=='Inactive' %}
+                                <a class="btn btn-success fw-semibold ps-3 pe-3"
+                                    href="/admin/service/activate_2/{{search_output.service_id}}">Activate</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if admin_search_outputs_customer %}
+        <div class="row">
+            <div class="col-10 offset-1">
+                {% if type=='Customer Name' %}
+                <h4>Customer Name Search Output</h4>
+                {% elif type=='City/Address' %}
+                <h4>Customer City Search Output</h4>
+                {% elif type=='Pincode' %}
+                <h4>Customer Pincode Search Output</h4>
+                {% endif %}
+                <div class="overflow-auto" style="height: 301px;">
+                    <div class="container border">
+                        {% for search_output in admin_search_outputs_customer %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{search_output.customer.name}}</h5>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#customer_view_{{search_output.customer.customer_id}}">View
+                                </button>
+
+                                <div class="modal fade" id="customer_view_{{search_output.customer.customer_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About {{search_output.customer.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3">
+                                                    <p><span class="fw-semibold">Name:</span>
+                                                        {{search_output.customer.name}} </p>
+                                                    <p><span class="fw-semibold">Email ID:</span>
+                                                        {{search_output.customer.email}} </p>
+                                                    <p><span class="fw-semibold">Contact No.:</span>
+                                                        {{search_output.customer.contact}} </p>
+                                                    <p><span class="fw-semibold">Address:</span>
+                                                        {{search_output.customer.address}} </p>
+                                                    <p><span class="fw-semibold">Pincode:</span>
+                                                        {{search_output.customer.pincode}} </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                {% if search_output.customer.status=='Active' %}
+                                                <a class="btn btn-danger fw-semibold"
+                                                    href="/admin/customer/block_2/{{search_output.customer.customer_id}}">Block</a>
+                                                {% elif search_output.customer.status=='Blocked' %}
+                                                <a class="btn btn-success fw-semibold"
+                                                    href="/admin/customer/unblock_2/{{search_output.customer.customer_id}}">Unblock</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                {% if search_output.customer.status=='Active' %}
+                                <a class="btn btn-danger fw-semibold ps-4 pe-4"
+                                    href="/admin/customer/block_2/{{search_output.customer.customer_id}}">Block</a>
+                                {% elif search_output.customer.status=='Blocked' %}
+                                <a class="btn btn-success fw-semibold"
+                                    href="/admin/customer/unblock_2/{{search_output.customer.customer_id}}">Unblock</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-2">
+                                <div class="text-center">
+                                    <h6 class="ms-3 mt-2">Active Services: {{search_output.active_service}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if type=='City/Address' %}
+        <br><br>
+        {% elif type=='Pincode' %}
+        <br><br>
+        {% endif %}
+
+        {% if admin_search_outputs_professional %}
+        <div class="col-10 offset-1">
+            {% if type=='Customer Name' %}
+            <h4>Professional Search Output</h4>
+            {% elif type=='City/Address' %}
+            <h4>Professional City Search Output</h4>
+            {% elif type=='Pincode' %}
+            <h4>Professional Pincode Search Output</h4>
+            {% endif %}
+            <div class="overflow-auto" style="height: 301px;">
+                <div class="container border">
+                    {% for search_output in admin_search_outputs_professional %}
+                    <div class="row align-content-center border-bottom" style="height: 60px;">
+                        <div class="col-7 align-content-center ms-3">
+                            <h5>{{search_output.professional.name}} </h5>
+                        </div>
+                        <div class="col-4 d-flex justify-content-around">
+                            <button type="button" class="btn fw-semibold" style="background-color:#003366; color: white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#view_request_service_professional_{{search_output.professional.professional_id}}">View
+                            </button>
+
+                            <div class="modal fade"
+                                id="view_request_service_professional_{{search_output.professional.professional_id}}"
+                                data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">About {{search_output.professional.name}} </h5>
+                                            <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                aria-close></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="ms-3">
+                                                <p><span class="fw-semibold">Name:</span>
+                                                    {{search_output.professional.name}} </p>
+                                                <p><span class="fw-semibold">Service Name:</span>
+                                                    {{search_output.service.name}} </p>
+                                                <p><span class="fw-semibold">Email ID:</span>
+                                                    {{search_output.professional.email}} </p>
+                                                <p><span class="fw-semibold">Contact No.:</span>
+                                                    {{search_output.professional.contact}} </p>
+                                                <p><span class="fw-semibold">City:</span>
+                                                    {{search_output.professional.city}} </p>
+                                                <p><span class="fw-semibold">Pincode:</span>
+                                                    {{search_output.professional.pincode}} </p>
+                                                <p><span class="fw-semibold">Registration Date:</span>
+                                                    {{search_output.professional.registered_date.strftime('%d/%m/%Y
+                                                    %H:%M:%S')}} </p>
+                                                <p><span class="fw-semibold">Description:</span>
+                                                    {{search_output.professional.description}}</p>
+                                                <p><span class="fw-semibold">Experience:</span>
+                                                    {{search_output.professional.experience}} Years </p>
+                                                <p><span class="fw-semibold">Status:</span>
+                                                    {{search_output.professional.status}} </p>
+                                                <p><span class="fw-semibold">Average Rating:</span>
+                                                    {{search_output.avg_rating}} </p>
+                                                <p><span class="fw-semibold">Document Proof:</span> <a
+                                                        class="text-decoration-none"
+                                                        href="/service/professional/document/{{search_output.professional.document}}">View
+                                                        Document Proof</a> </p>
+                                            </div>
+                                        </div>
+                                        {% if search_output.professional.status=='Pending Approval' %}
+                                        <div class="modal-footer">
+                                            <a class="btn btn-success fw-semibold"
+                                                href="/admin/professional/accept_2/{{search_output.professional.professional_id}}">Accept</a>
+                                            <a class="btn btn-danger fw-semibold"
+                                                href="/admin/professional/reject_2/{{search_output.professional.professional_id}}">Reject</a>
+                                        </div>
+                                        {% elif search_output.professional.status=='Verified' %}
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn fw-semibold btn-warning"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#service_professional_review_{{search_output.professional.professional_id}}">Reviews
+                                            </button>
+
+                                            <a class="btn btn-danger fw-semibold"
+                                                href="/admin/professional/block_2/{{search_output.professional.professional_id}}">Block</a>
+                                        </div>
+                                        {% elif search_output.professional.status=='Blocked' %}
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn fw-semibold btn-warning"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#service_professional_review_{{search_output.professional.professional_id}}">Reviews
+                                            </button>
+
+                                            <a class="btn btn-success fw-semibold"
+                                                href="/admin/professional/unblock_2/{{search_output.professional.professional_id}}">Unblock</a>
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% if search_output.professional.status=='Pending Approval' %}
+                            <a class="btn btn-success fw-semibold"
+                                href="/admin/professional/accept_2/{{search_output.professional.professional_id}}">Accept</a>
+                            <a class="btn btn-danger fw-semibold"
+                                href="/admin/professional/reject_2/{{search_output.professional.professional_id}}">Reject</a>
+                            {% elif search_output.professional.status=='Verified' %}
+                            <button type="button" class="btn fw-semibold btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#service_professional_review_{{search_output.professional.professional_id}}">Reviews
+                            </button>
+
+                            <a class="btn btn-danger fw-semibold"
+                                href="/admin/professional/block_2/{{search_output.professional.professional_id}}">Block</a>
+                            {% elif search_output.professional.status=='Rejected' %}
+                            <h6 class="text-danger ms-4 me-2 mt-2">You Rejected Request</h6>
+                            {% elif search_output.professional.status=='Blocked' %}
+                            <button type="button" class="btn fw-semibold btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#service_professional_review_{{search_output.professional.professional_id}}">Reviews
+                            </button>
+
+                            <a class="btn btn-success fw-semibold"
+                                href="/admin/professional/unblock_2/{{search_output.professional.professional_id}}">Unblock</a>
+                            {% endif %}
+                        </div>
+
+                        <div class="modal fade"
+                            id="service_professional_review_{{search_output.professional.professional_id}}"
+                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">All Reviews of {{search_output.professional.name}}</h5>
+                                        <button type="button" class="btn-close" data-bs-toggle="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container overflow-auto border">
+                                            {% if search_output.reviews %}
+                                            <div class="row align-content-center border-bottom mt-2">
+                                                <div class="col-5">
+                                                    <h6>Comments</h6>
+                                                </div>
+                                                <div class="col-5">
+                                                    <h6>Reviewed on</h6>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center">
+                                                        <h6>Ratings</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% for review in search_output.reviews %}
+                                            <div class="row align-content-center border-bottom mt-2">
+                                                <div class="col-5">
+                                                    {% if review.comment %}
+                                                    <p>{{review.comment}}</p>
+                                                    {% else %}
+                                                    <p>No comment</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-5">
+                                                    <p>{{review.posted_datetime.strftime('%d/%m/%Y %H:%M:%S')}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-2">
+                                                    <div class="text-center">
+                                                        <p>{{review.rating}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% else %}
+                                            <div class="text-center mt-3">
+                                                <p>No reviews</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if service_data %}
+        <div class="row">
+            <div class="col-10 offset-1">
+                {% if type=='Requested on' %}
+                <h4>Service Requested on {{search}}</h4>
+                {% elif type=='Requested for' %}
+                <h4>Service Requested for {{search}}</h4>
+                {% elif type=='Completed on' %}
+                <h4>Service Completed on {{search}}</h4>
+                {% endif %}
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service Professional</h4>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h4>Customer</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Details View Button</h4>
+                            </div>
+                        </div>
+                        {% for data in service_data %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{data.service.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{data.professional.name}}</h5>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h5>{{data.customer.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3 text-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_closed_service_request_{{data.service_request.service_request_id}}">View
+                                    Details
+                                </button>
+
+                                <div class="modal fade"
+                                    id="view_closed_service_request_{{data.service_request.service_request_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About Service Request </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-close></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3 text-start">
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{data.service.name}} </p>
+                                                    <p><span class="fw-semibold">Service Requested on:</span>
+                                                        {{data.service_request.date_of_request.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Service Requested for:</span>
+                                                        {{data.service_request.service_date.strftime('%d/%m/%Y')}}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Time Slot:</span>
+                                                        {{data.service_request.service_slot}} </p>
+                                                    <p><span class="fw-semibold">Service Remarks:</span>
+                                                        {{data.service_request.remarks}} </p>
+                                                    <p><span class="fw-semibold">Service Status:</span>
+                                                        {{data.service_request.status}} </p>
+                                                    {% if data.review %}
+                                                    <p><span class="fw-semibold">Service Reviewed on:</span>
+                                                        {{data.review.posted_datetime.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}}</p>
+                                                    <p><span class="fw-semibold">Customer Comment:</span>
+                                                        {% if data.review.comment %}
+                                                        {{data.review.comment}}
+                                                        {% else %}
+                                                        N/A
+                                                        {% endif %}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Rating:</span>
+                                                        {{data.review.rating}} Star </p>
+                                                    {% endif %}
+                                                    <hr>
+                                                    <h5>About Service Professional</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{data.professional.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{data.professional.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{data.professional.contact}} </p>
+                                                        <p><span class="fw-semibold">City:</span>
+                                                            {{data.professional.city}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{data.professional.pincode}} </p>
+                                                        <p><span class="fw-semibold">Registration Date:</span>
+                                                            {{data.professional.registered_date.strftime('%d/%m/%Y
+                                                            %H:%M:%S')}} </p>
+                                                        <p><span class="fw-semibold">Description:</span>
+                                                            {{data.professional.description}}</p>
+                                                        <p><span class="fw-semibold">Experience:</span>
+                                                            {{data.professional.experience}} Years </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{data.professional.status}} </p>
+                                                    </div>
+                                                    <hr>
+                                                    <h5>About Customer</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{data.customer.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{data.customer.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{data.customer.contact}} </p>
+                                                        <p><span class="fw-semibold">Address:</span>
+                                                            {{data.customer.address}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{data.customer.pincode}} </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{data.customer.status}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <br><br><br><br>
+        <div class="row fixed-bottom" style="background-color: #fcfcfc; height:60px">
+            <p class="text-center mt-3">&copy; 2024 Nishant Kumar</p>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

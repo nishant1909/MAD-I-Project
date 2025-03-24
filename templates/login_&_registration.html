@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A-Z Household Service</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+</head>
+
+<body style="background-color: #f4f4f4;">
+
+    <div class="container mt-5">
+        <div class="row">
+            <div style="height:40px"></div>
+        </div>
+        <div class="row">
+            <div class="col-4 offset-2 rounded-start-3" style="background-color: #003366;">
+                <div class="text-white ms-4">
+                        <br><br><br><br><br>
+                        <h1 class="ms-3 mb-0">A-Z Household</h1>
+                        <h1 class="mt-0 ms-3">Service</h1>
+                        <p class="ms-4 mt-3">"Your All-in-One Home Service Hub: <br> Trusted Pros, Seamless Requests, and Expert Solutions!"</p>
+                        <div class="text-center me-3">
+                            <button type="button" class="btn fw-semibold" style="color: white" data-bs-toggle="modal"
+                                data-bs-target="#admin_login">Admin Log in</button>
+
+                            <div class="modal fade" id="admin_login" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="ms-3">
+                                                <h3 class="text-center mt-3 mb-4" style="color: #003366;">Admin Log In</h3>
+                                                <form action="/admin/login" method="POST">
+
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+                                                                <label for="password" class="text-dark">Password</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                            
+                            
+                                                    <div class="text-center mb-2">
+                                                        <button type="submit" class="btn rounded-3 fw-semibold" style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Log in</button>
+                                                    </div>
+                            
+                            
+                                                </form>
+                                                <hr class="mx-3 mt-4 text-dark">
+                                                <div class="d-flex justify-content-center">
+                                                    <p class="text-center mt-3 text-dark">User?</p>
+                                                    <button type="button" class="btn fw-semibold" style="color: #003366;"
+                                                        data-bs-dismiss="modal">Log in</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                </div>
+            </div>
+            <div class="col-4 rounded-end-3 bg-light-subtle">
+                <div class="mt-4">
+                    <h2 class="text-center">Log In</h2>
+                    <p class="text-center">Log In to Connect and Book Top Services!</p>
+                </div>
+                <hr class="mt-3 mb-4 mx-auto" style="width:96%">
+                <form action="/" method="POST">
+                    <div class="row mx-1">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="email" placeholder="Email"
+                                    name="email" required>
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mx-1">
+                        <div class="col">
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="password" placeholder="Password"
+                                    name="password" required>
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-3 mt-2">
+                        <button type="submit" class="btn rounded-3 text-white fw-semibold"
+                            style="padding-left: 75px; padding-right: 75px; background-color: #003366">Log in</button>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-center mt-5">
+                    <hr class="w-25 d-inline-block">
+                    <p class="text-center align-center d-inline-block mt-0">&nbsp; Or Sign Up &nbsp;</p>
+                    <hr class="w-25 d-inline-block">
+                </div>
+                <div class="text-center mb-4">
+                    
+                    <button type="button" class="btn fw-semibold" style="color: #003366;" data-bs-toggle="modal" data-bs-target="#customer_registration">Customer Registration</button>
+
+                    <div class="modal fade" id="customer_registration" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="ms-3">
+                                        <h3 class="text-center mt-3 mb-4" style="color: #003366;">Customer Registration</h3>
+                                        <form action="/customer/registration" method="POST">
+                                            <div class="row mx-1 mt-4">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="email" class="form-control" id="customeremail" placeholder="Email Id" name="customeremail" required>
+                                                        <label for="customeremail">Email Id</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="password" class="form-control" id="customerpassword" placeholder="Password" name="customerpassword" required>
+                                                        <label for="customerpassword">Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="customername" placeholder="Full Name" name="customername" required>
+                                                        <label for="customername">Full Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="tel" class="form-control" id="customer_contact" placeholder="Contact No."
+                                                            name="customer_contact" required>
+                                                        <label for="customer_contact">Contact No.</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <textarea class="form-control" placeholder="Address" id="customeraddress" name="customeraddress" required></textarea>
+                                                        <label for="customeraddress">Address</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="number" class="form-control" pattern="\d{6}" maxlength="6" id="pincode" placeholder="Pincode" name="pincode" required>
+                                                        <label for="name">Pincode</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-center mb-2">
+                                                <button type="submit" class="btn rounded-3 fw-semibold"
+                                                    style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Register</button>
+                                            </div>
+
+
+                                        </form>
+                                        <hr class="mx-3 mt-4">
+                                        <div class="d-flex justify-content-center">
+                                            <p class="text-center mt-3">Have an account?</p>
+                                            <button type="button" class="btn fw-semibold" style="color: #003366;" data-bs-dismiss="modal">Log in</button>
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn fw-semibold" style="color: #003366;" data-bs-toggle="modal" data-bs-target="#service_professional_registration">Service Professional Registration</button>
+
+                    <div class="modal fade" id="service_professional_registration" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="ms-3">
+                                        <h3 class="text-center mt-3 mb-4" style="color: #003366;">Service Professional Registration</h3>
+                                        <form action="/service/professional/registration" method="POST" enctype="multipart/form-data">
+                                            <div class="row mx-1 mt-3">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="email" class="form-control" id="service_professional_email" placeholder="Email Id"
+                                                            name="service_professional_email" required>
+                                                        <label for="service_professional_email">Email Id</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="password" class="form-control" id="service_professional_password" placeholder="Password"
+                                                            name="service_professional_password" required>
+                                                        <label for="service_professional_password">Password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="service_professional_name" placeholder="Full Name"
+                                                            name="service_professional_name" required>
+                                                        <label for="service_professional_name">Full Name</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="tel" class="form-control" id="service_professional_contact" placeholder="Contact No."
+                                                            name="service_professional_contact" required>
+                                                        <label for="service_professional_contact">Contact No.</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control" id="service_professional_city" placeholder="City"
+                                                            name="service_professional_city" required>
+                                                        <label for="service_professional_city">City</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="number" class="form-control" id="service_professional_pincode" pattern="\d{6}" maxlength="6" id="pincode" placeholder="Pincode" placeholder="Pincode"
+                                                            name="service_professional_pincode" required>
+                                                        <label for="service_professional_pincode">Pincode</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <textarea class="form-control" placeholder="Description" id="description" name="description"
+                                                            required></textarea>
+                                                        <label for="address">Description</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <select class="form-select" id="service_id" name="service_id">
+                                                            <option value="" selected>Select Service which will you provide.</option>
+                                                            {% for service in services %}
+                                                                {% if service.status=='Active' %}
+                                                                    <option value="{{service.service_id}}">{{service.name}}</option>
+                                                                {% elif service.status=='Inactive' %}
+                                                                    <option value="{{service.service_id}}">{{service.name}} Inactive</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                        <label for="service_type">Providing Service</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row mx-1">
+                                                <div class="col">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="number" class="form-control" id="experience"
+                                                            placeholder="Years of Experience" name="experience" required>
+                                                        <label for="experience">Years of Experience</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
+                                            <div class="row mx-1">
+                                                <div class="mb-3 d-flex">
+                                                    <div class="col-4 align-content-center">
+                                                        <label for="document" class="form-label">Document Proof</label>
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <input class="form-control" type="file" id="document" name="document" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                            <div class="text-center mb-2">
+                                                <button type="submit" class="btn rounded-3 fw-semibold"
+                                                    style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Register</button>
+                                            </div>
+                    
+                    
+                                        </form>
+                                        <hr class="mx-3 mt-4">
+                                        <div class="d-flex justify-content-center">
+                                            <p class="text-center mt-3">Have an account?</p>
+                                            <button type="button" class="btn fw-semibold" style="color: #003366;"
+                                                data-bs-dismiss="modal">Log in</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        
+        <div style="height:86px"></div>
+        <div class="row">
+            <p class="text-center">&copy; 2024 Nishant Kumar</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

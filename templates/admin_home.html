@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+
+</head>
+
+<body>
+    <section class="fixed-top">
+        <nav class="navbar navbar-expand-lg"
+            style="background-color: #87CEEB; color: #003366; border-bottom: 2px solid #003366;">
+            <div class="container-fluid">
+                <h3 class="m-3 ps-3">Welcome Admin </h3>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                    <div class="navbar-nav fs-5 nav-pills">
+                        <a class="nav-link active pe-5 ps-5 text-white" aria-current="page" href="/admin/home"
+                            style="background-color: #003366;">Home</a>
+                        <a class="nav-link pe-5 ps-5 fw-semibold" style="color: #003366;"
+                            href="/admin/search">Search</a>
+                        <a class="nav-link pe-5 ps-5 fw-semibold" style="color: #003366;" href="/">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+
+
+    <div class="container" style="color: #003366;">
+        <br><br><br><br><br>
+        <div class="row">
+            <div class="col-10 offset-1">
+                <div class="d-flex justify-content-between ">
+                    <h4>Services</h4>
+                    <button type="button" class="btn fw-semibold mb-2" style="color: #003366" data-bs-toggle="modal"
+                        data-bs-target="#add_service"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                            fill="currentColor" class="bi bi-plus" viewBox="0 0 17 17">
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>Add New Service
+                    </button>
+
+                    <div class="modal fade" id="add_service" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add New Service</h5>
+                                    <button type="button" class="btn-close" data-bs-toggle="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/admin/add/service" method="POST">
+                                        <div class="row mx-1">
+                                            <div class="col">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="service_name"
+                                                        placeholder="Service Name" name="service_name" required>
+                                                    <label for="service_name">Service Name</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mx-1">
+                                            <div class="col">
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control" id="service_min_price"
+                                                        placeholder="Minimumn Cost" name="service_min_price" required>
+                                                    <label for="service_min_price">Minimumn Cost</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mx-1">
+                                            <div class="col">
+                                                <div class="form-floating mb-3">
+                                                    <textarea class="form-control" placeholder="Service Description"
+                                                        id="service_description" name="service_description"
+                                                        required></textarea>
+                                                    <label for="service_description">Service Description</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="text-center mb-2">
+                                            <button type="submit" class="btn rounded-3 fw-semibold"
+                                                style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Add</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% for service in services %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{service.name}}</h5>
+                            </div>
+                            <div class="col-3 d-flex justify-content-around align-content-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_service_{{service.service_id}}">View
+                                </button>
+
+
+                                <div class="modal fade" id="view_service_{{service.service_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{service.name}}</h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body ms-3">
+                                                <p><span class="fw-semibold">Service Name:</span> {{service.name}}</p>
+                                                <p><span class="fw-semibold">Service Description:</span>
+                                                    {{service.description}} </p>
+                                                <p><span class="fw-semibold">Minimum Cost:</span>
+                                                    &#8377;{{service.min_price}} </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn fw-semibold btn-warning ps-4 pe-4"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#edit_service_{{service.service_id}}">Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn fw-semibold btn-warning ps-4 pe-4"
+                                    data-bs-toggle="modal" data-bs-target="#edit_service_{{service.service_id}}">Edit
+                                </button>
+
+
+                                <div class="modal fade" id="edit_service_{{service.service_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit {{service.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/admin/edit_1/service/{{service.service_id}}"
+                                                    method="POST">
+
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="number" class="form-control"
+                                                                    id="edit_service_min_price"
+                                                                    placeholder="Currect Minimumn Cost: &#8377;{{service.min_price}}"
+                                                                    name="edit_service_min_price" required>
+                                                                <label for="edit_service_min_price">Currect Minimumn
+                                                                    Cost: &#8377;{{service.min_price}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <div class="form-floating mb-3">
+                                                                <textarea class="form-control"
+                                                                    placeholder="Service Description"
+                                                                    id="edit_service_description"
+                                                                    name="edit_service_description" required></textarea>
+                                                                <label for="edit_service_description">Service
+                                                                    Description</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="text-center mb-2">
+                                                        <button type="submit" class="btn rounded-3 fw-semibold"
+                                                            style="padding-left: 40px; padding-right:40px; color: white; background-color: #003366;">Submit</button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-1">
+                                {% if service.status=='Active' %}
+                                <a class="btn btn-danger fw-semibold"
+                                    href="/admin/service/deactivate_1/{{service.service_id}}">Deactivate</a>
+                                {% elif service.status=='Inactive' %}
+                                <a class="btn btn-success fw-semibold ps-3 pe-3"
+                                    href="/admin/service/activate_1/{{service.service_id}}">Activate</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Professional Registration Request</h4>
+                <div class="overflow-auto" style="height: 301px;">
+                    <div class="container border">
+                        {% for request in service_professional_request %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{request.professional.name}} </h5>
+                            </div>
+                            <div class="col-4 d-flex justify-content-around">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_request_service_professional_{{request.professional.professional_id}}">View
+                                </button>
+
+                                <div class="modal fade"
+                                    id="view_request_service_professional_{{request.professional.professional_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About {{request.professional.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-close></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3">
+                                                    <p><span class="fw-semibold">Name:</span>
+                                                        {{request.professional.name}} </p>
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{request.service.name}} </p>
+                                                    <p><span class="fw-semibold">Email ID:</span>
+                                                        {{request.professional.email}} </p>
+                                                    <p><span class="fw-semibold">Contact No.:</span>
+                                                        {{request.professional.contact}} </p>
+                                                    <p><span class="fw-semibold">City:</span>
+                                                        {{request.professional.city}} </p>
+                                                    <p><span class="fw-semibold">Pincode:</span>
+                                                        {{request.professional.pincode}} </p>
+                                                    <p><span class="fw-semibold">Registration Date:</span>
+                                                        {{request.professional.registered_date.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Description:</span>
+                                                        {{request.professional.description}}</p>
+                                                    <p><span class="fw-semibold">Experience:</span>
+                                                        {{request.professional.experience}} Years </p>
+                                                    <p><span class="fw-semibold">Document Proof:</span> <a
+                                                            class="text-decoration-none"
+                                                            href="/service/professional/document/{{request.professional.document}}">View
+                                                            Document Proof</a> </p>
+                                                </div>
+                                            </div>
+                                            {% if request.professional.status=='Pending Approval' %}
+                                            <div class="modal-footer">
+                                                <a class="btn btn-success fw-semibold"
+                                                    href="/admin/professional/accept/{{request.professional.professional_id}}">Accept</a>
+                                                <a class="btn btn-danger fw-semibold"
+                                                    href="/admin/professional/reject/{{request.professional.professional_id}}">Reject</a>
+                                            </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if request.professional.status=='Pending Approval' %}
+                                <a class="btn btn-success fw-semibold"
+                                    href="/admin/professional/accept/{{request.professional.professional_id}}">Accept</a>
+                                <a class="btn btn-danger fw-semibold"
+                                    href="/admin/professional/reject/{{request.professional.professional_id}}">Reject</a>
+                                {% elif request.professional.status=='Rejected' %}
+                                <h6 class="text-danger ms-4 me-2 mt-2">You Rejected Request</h6>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>All Professionals</h4>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% for professional in professional_with_review %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{professional.professional.name}} </h5>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#service_professional_{{professional.professional.professional_id}}">View
+                                </button>
+
+                                <div class="modal fade"
+                                    id="service_professional_{{professional.professional.professional_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About {{professional.professional.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3">
+                                                    <p><span class="fw-semibold">Name:</span>
+                                                        {{professional.professional.name}} </p>
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{professional.service.name}} </p>
+                                                    <p><span class="fw-semibold">Email ID:</span>
+                                                        {{professional.professional.email}} </p>
+                                                    <p><span class="fw-semibold">Contact No.:</span>
+                                                        {{professional.professional.contact}} </p>
+                                                    <p><span class="fw-semibold">City:</span>
+                                                        {{professional.professional.city}} </p>
+                                                    <p><span class="fw-semibold">Pincode:</span>
+                                                        {{professional.professional.pincode}} </p>
+                                                    <p><span class="fw-semibold">Registration Date:</span>
+                                                        {{professional.professional.registered_date.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Description:</span>
+                                                        {{professional.professional.description}}</p>
+                                                    <p><span class="fw-semibold">Experience:</span>
+                                                        {{professional.professional.experience}} Years </p>
+                                                    <p><span class="fw-semibold">Average Rating:</span>
+                                                        {{professional.avg_rating}} </p>
+                                                    <p><span class="fw-semibold">Document Proof:</span> <a
+                                                            class="text-decoration-none"
+                                                            href="/service/professional/document/{{professional.professional.document}}">View
+                                                            Document Proof</a> </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn fw-semibold btn-warning"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#service_professional_review_{{professional.professional.professional_id}}">Reviews
+                                                </button>
+
+                                                {% if professional.professional.status=='Verified' %}
+                                                <a class="btn btn-danger fw-semibold"
+                                                    href="/admin/professional/block/{{professional.professional.professional_id}}">Block</a>
+                                                {% elif professional.professional.status=='Blocked' %}
+                                                <a class="btn btn-success fw-semibold"
+                                                    href="/admin/professional/unblock/{{professional.professional.professional_id}}">Unblock</a>
+                                                {% endif %}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="modal fade"
+                                    id="service_professional_review_{{professional.professional.professional_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">All Reviews of
+                                                    {{professional.professional.name}}</h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container overflow-auto border">
+                                                    {% if professional.reviews %}
+                                                    <div class="row align-content-center border-bottom mt-2">
+                                                        <div class="col-5">
+                                                            <h6>Comments</h6>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <h6>Reviewed on</h6>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="text-center">
+                                                                <h6>Ratings</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% for review in professional.reviews %}
+                                                    <div class="row align-content-center border-bottom mt-2">
+                                                        <div class="col-5">
+                                                            {% if review.comment %}
+                                                            <p>{{review.comment}}</p>
+                                                            {% else %}
+                                                            <p>No comment</p>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <p>{{review.posted_datetime.strftime('%d/%m/%Y %H:%M:%S')}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <div class="text-center">
+                                                                <p>{{review.rating}} </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <div class="text-center mt-3">
+                                                        <p>No reviews</p>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex justify-content-around">
+                                <button type="button" class="btn fw-semibold btn-warning" data-bs-toggle="modal"
+                                    data-bs-target="#service_professional_review_{{professional.professional.professional_id}}">Review
+                                </button>
+
+                                {% if professional.professional.status=='Verified' %}
+                                <a class="btn btn-danger fw-semibold ps-4 pe-4"
+                                    href="/admin/professional/block/{{professional.professional.professional_id}}">Block</a>
+                                {% elif professional.professional.status=='Blocked' %}
+                                <a class="btn btn-success fw-semibold"
+                                    href="/admin/professional/unblock/{{professional.professional.professional_id}}">Unblock</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Customers</h4>
+                <div class="overflow-auto" style="height: 301px;">
+                    <div class="container border">
+                        {% for customer in customers %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-7 align-content-center ms-3">
+                                <h5>{{customer.customer.name}} </h5>
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#customer_view_{{customer.customer.customer_id}}">View
+                                </button>
+
+                                <div class="modal fade" id="customer_view_{{customer.customer.customer_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About {{customer.customer.name}} </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3">
+                                                    <p><span class="fw-semibold">Name:</span> {{customer.customer.name}}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Email ID:</span>
+                                                        {{customer.customer.email}} </p>
+                                                    <p><span class="fw-semibold">Contact No.:</span>
+                                                        {{customer.customer.contact}} </p>
+                                                    <p><span class="fw-semibold">Address:</span>
+                                                        {{customer.customer.address}} </p>
+                                                    <p><span class="fw-semibold">Pincode:</span>
+                                                        {{customer.customer.pincode}} </p>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                {% if customer.customer.status=='Active' %}
+                                                <a class="btn btn-danger fw-semibold"
+                                                    href="/admin/customer/block/{{customer.customer.customer_id}}">Block</a>
+                                                {% elif customer.customer.status=='Blocked' %}
+                                                <a class="btn btn-success fw-semibold"
+                                                    href="/admin/customer/unblock/{{customer.customer.customer_id}}">Unblock</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                {% if customer.customer.status=='Active' %}
+                                <a class="btn btn-danger fw-semibold ps-4 pe-4"
+                                    href="/admin/customer/block/{{customer.customer.customer_id}}">Block</a>
+                                {% elif customer.customer.status=='Blocked' %}
+                                <a class="btn btn-success fw-semibold"
+                                    href="/admin/customer/unblock/{{customer.customer.customer_id}}">Unblock</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-2">
+                                <div class="text-center">
+                                    <h6 class="ms-3 mt-2">Active Services: {{customer.active_service}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Ongoing Service Requests</h4>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% if ongoing_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service Professional</h4>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h4>Customer</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Details View Button</h4>
+                            </div>
+                        </div>
+                        {% for ongoing_request in ongoing_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{ongoing_request.service.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{ongoing_request.professional.name}}</h5>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h5>{{ongoing_request.customer.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3 text-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_onging_service_request_{{ongoing_request.service_request.service_request_id}}">View
+                                    Details
+                                </button>
+
+                                <div class="modal fade"
+                                    id="view_onging_service_request_{{ongoing_request.service_request.service_request_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About Service Request </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-close></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3 text-start">
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{ongoing_request.service.name}} </p>
+                                                    <p><span class="fw-semibold">Service Requested on:</span>
+                                                        {{ongoing_request.service_request.date_of_request.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Service Requested for:</span>
+                                                        {{ongoing_request.service_request.service_date.strftime('%d/%m/%Y')}}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Time Slot:</span>
+                                                        {{ongoing_request.service_request.service_slot}} </p>
+                                                    <p><span class="fw-semibold">Service Remarks:</span>
+                                                        {{ongoing_request.service_request.remarks}} </p>
+                                                    <p><span class="fw-semibold">Service Status:</span>
+                                                        {{ongoing_request.service_request.status}} </p>
+                                                    <hr>
+                                                    <h5>About Service Professional</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{ongoing_request.professional.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{ongoing_request.professional.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{ongoing_request.professional.contact}} </p>
+                                                        <p><span class="fw-semibold">City:</span>
+                                                            {{ongoing_request.professional.city}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{ongoing_request.professional.pincode}} </p>
+                                                        <p><span class="fw-semibold">Registration Date:</span>
+                                                            {{ongoing_request.professional.registered_date.strftime('%d/%m/%Y
+                                                            %H:%M:%S')}} </p>
+                                                        <p><span class="fw-semibold">Description:</span>
+                                                            {{ongoing_request.professional.description}}</p>
+                                                        <p><span class="fw-semibold">Experience:</span>
+                                                            {{ongoing_request.professional.experience}} Years </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{ongoing_request.professional.status}} </p>
+                                                    </div>
+                                                    <hr>
+                                                    <h5>About Customer</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{ongoing_request.customer.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{ongoing_request.customer.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{ongoing_request.customer.contact}} </p>
+                                                        <p><span class="fw-semibold">Address:</span>
+                                                            {{ongoing_request.customer.address}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{ongoing_request.customer.pincode}} </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{ongoing_request.customer.status}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center">
+                            <h6 class="m-3" style="color: #003366;">There is no Ongoing Service Request</h6>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Rejected & Withdrawed Service Requests</h4>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% if cancel_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service Professional</h4>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h4>Customer</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Details View Button</h4>
+                            </div>
+                        </div>
+                        {% for cancel_request in cancel_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{cancel_request.service.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{cancel_request.professional.name}}</h5>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h5>{{cancel_request.customer.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3 text-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_cancel_service_request_{{cancel_request.service_request.service_request_id}}">View
+                                    Details
+                                </button>
+
+                                <div class="modal fade"
+                                    id="view_cancel_service_request_{{cancel_request.service_request.service_request_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About Service Request </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-close></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3 text-start">
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{cancel_request.service.name}} </p>
+                                                    <p><span class="fw-semibold">Service Requested on:</span>
+                                                        {{cancel_request.service_request.date_of_request.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Service Requested for:</span>
+                                                        {{cancel_request.service_request.service_date.strftime('%d/%m/%Y')}}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Time Slot:</span>
+                                                        {{cancel_request.service_request.service_slot}} </p>
+                                                    <p><span class="fw-semibold">Service Remarks:</span>
+                                                        {{cancel_request.service_request.remarks}} </p>
+                                                    <p><span class="fw-semibold">Service Status:</span>
+                                                        {{cancel_request.service_request.status}} </p>
+                                                    <hr>
+                                                    <h5>About Service Professional</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{cancel_request.professional.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{cancel_request.professional.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{cancel_request.professional.contact}} </p>
+                                                        <p><span class="fw-semibold">City:</span>
+                                                            {{cancel_request.professional.city}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{cancel_request.professional.pincode}} </p>
+                                                        <p><span class="fw-semibold">Registration Date:</span>
+                                                            {{cancel_request.professional.registered_date.strftime('%d/%m/%Y
+                                                            %H:%M:%S')}} </p>
+                                                        <p><span class="fw-semibold">Description:</span>
+                                                            {{cancel_request.professional.description}}</p>
+                                                        <p><span class="fw-semibold">Experience:</span>
+                                                            {{cancel_request.professional.experience}} Years </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{cancel_request.professional.status}} </p>
+                                                    </div>
+                                                    <hr>
+                                                    <h5>About Customer</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{cancel_request.customer.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{cancel_request.customer.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{cancel_request.customer.contact}} </p>
+                                                        <p><span class="fw-semibold">Address:</span>
+                                                            {{cancel_request.customer.address}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{cancel_request.customer.pincode}} </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{cancel_request.customer.status}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center">
+                            <h6 class="m-3" style="color: #003366;">There is no Rejected or Withdrawed Service Request
+                            </h6>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h4>Closed Service Requests</h4>
+                <div class="overflow-auto" style="height: 482px;">
+                    <div class="container border">
+                        {% if closed_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Service Professional</h4>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h4>Customer</h4>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h4>Details View Button</h4>
+                            </div>
+                        </div>
+                        {% for closed_request in closed_requests %}
+                        <div class="row align-content-center border-bottom" style="height: 60px;">
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{closed_request.service.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3">
+                                <h5>{{closed_request.professional.name}}</h5>
+                            </div>
+                            <div class="col-2 align-content-center ms-3">
+                                <h5>{{closed_request.customer.name}}</h5>
+                            </div>
+                            <div class="col-3 align-content-center ms-3 text-center">
+                                <button type="button" class="btn fw-semibold"
+                                    style="background-color:#003366; color: white" data-bs-toggle="modal"
+                                    data-bs-target="#view_closed_service_request_{{closed_request.service_request.service_request_id}}">View
+                                    Details
+                                </button>
+
+                                <div class="modal fade"
+                                    id="view_closed_service_request_{{closed_request.service_request.service_request_id}}"
+                                    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">About Service Request </h5>
+                                                <button type="button" class="btn-close" data-bs-toggle="modal"
+                                                    aria-close></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="ms-3 text-start">
+                                                    <p><span class="fw-semibold">Service Name:</span>
+                                                        {{closed_request.service.name}} </p>
+                                                    <p><span class="fw-semibold">Service Requested on:</span>
+                                                        {{closed_request.service_request.date_of_request.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}} </p>
+                                                    <p><span class="fw-semibold">Service Requested for:</span>
+                                                        {{closed_request.service_request.service_date.strftime('%d/%m/%Y')}}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Time Slot:</span>
+                                                        {{closed_request.service_request.service_slot}} </p>
+                                                    <p><span class="fw-semibold">Service Remarks:</span>
+                                                        {{closed_request.service_request.remarks}} </p>
+                                                    <p><span class="fw-semibold">Service Status:</span>
+                                                        {{closed_request.service_request.status}} </p>
+                                                    {% if closed_request.review %}
+                                                    <p><span class="fw-semibold">Service Reviewed on:</span>
+                                                        {{closed_request.review.posted_datetime.strftime('%d/%m/%Y
+                                                        %H:%M:%S')}}</p>
+                                                    <p><span class="fw-semibold">Customer Comment:</span>
+                                                        {% if closed_request.review.comment %}
+                                                        {{closed_request.review.comment}}
+                                                        {% else %}
+                                                        N/A
+                                                        {% endif %}
+                                                    </p>
+                                                    <p><span class="fw-semibold">Service Rating:</span>
+                                                        {{closed_request.review.rating}} Star </p>
+
+                                                    {% endif %}
+                                                    <hr>
+                                                    <h5>About Service Professional</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{closed_request.professional.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{closed_request.professional.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{closed_request.professional.contact}} </p>
+                                                        <p><span class="fw-semibold">City:</span>
+                                                            {{closed_request.professional.city}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{closed_request.professional.pincode}} </p>
+                                                        <p><span class="fw-semibold">Registration Date:</span>
+                                                            {{closed_request.professional.registered_date.strftime('%d/%m/%Y
+                                                            %H:%M:%S')}} </p>
+                                                        <p><span class="fw-semibold">Description:</span>
+                                                            {{closed_request.professional.description}}</p>
+                                                        <p><span class="fw-semibold">Experience:</span>
+                                                            {{closed_request.professional.experience}} Years </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{closed_request.professional.status}} </p>
+                                                    </div>
+                                                    <hr>
+                                                    <h5>About Customer</h5>
+                                                    <div class="ms-3">
+                                                        <p><span class="fw-semibold">Name:</span>
+                                                            {{closed_request.customer.name}} </p>
+                                                        <p><span class="fw-semibold">Email ID:</span>
+                                                            {{closed_request.customer.email}} </p>
+                                                        <p><span class="fw-semibold">Contact No.:</span>
+                                                            {{closed_request.customer.contact}} </p>
+                                                        <p><span class="fw-semibold">Address:</span>
+                                                            {{closed_request.customer.address}} </p>
+                                                        <p><span class="fw-semibold">Pincode:</span>
+                                                            {{closed_request.customer.pincode}} </p>
+                                                        <p><span class="fw-semibold">Status:</span>
+                                                            {{closed_request.customer.status}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center">
+                            <h6 class="m-3" style="color: #003366;">There is no Ongoing Service Request</h6>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <br><br><br>
+        <div class="row fixed-bottom" style="background-color: #fcfcfc; height:60px">
+            <p class="text-center mt-3">&copy; 2024 Nishant Kumar</p>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
